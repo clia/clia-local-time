@@ -1,0 +1,11 @@
+[package]
+name = "clia-local-time"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+time = "0.3"
+tracing-subscriber = { version = "0.3", features = ["fmt", "std", "time"] }
+
+[dev-dependencies]
+time = { version = "0.3", features = ["macros"] }
