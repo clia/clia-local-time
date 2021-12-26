@@ -2,6 +2,10 @@
 name = "clia-local-time"
 version = "0.1.0"
 edition = "2021"
+license = "MIT"
+description = "A LocalTime implementation to set timezone manually."
+repository = "https://github.com/clia/clia-local-time"
+keywords = ["tracing", "local", "time", "localtime"]
 
 [dependencies]
 time = "0.3"
