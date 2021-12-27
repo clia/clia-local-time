@@ -54,7 +54,7 @@ impl<F: Formattable> LocalTime<F> {
     /// [`time` crate] with the provided provided format. The format may be any
     /// type that implements the [`Formattable`] trait.
     ///
-    /// Default use UTC.
+    /// This default use UTC.
     ///
     /// Typically, the format will be a format description string, or one of the
     /// `time` crate's [well-known formats].
@@ -128,10 +128,15 @@ impl<F: Formattable> LocalTime<F> {
     }
 
     /// New with a format and timezone setting.
+    /// 
     /// Timezone format: (tz_hours, tz_minutes, tz_seconds)
-    /// Example:
+    /// 
+    /// # Examples:
+    /// 
+    /// ```
     ///     (8, 0, 0)
     ///     (-2, 30, 0)
+    /// ```
     /// 
     pub fn with_timezone(format: F, tz_hms: (i8, i8, i8)) -> Self {
         Self {
@@ -194,7 +199,7 @@ fn format_datetime(
 /// `fmt::Write` implementation, while `serde_json::Serializer` and `time`'s
 /// `format_into` methods expect an `io::Write`.
 // #[cfg(any(feature = "json", feature = "time"))]
-pub struct WriteAdaptor<'a> {
+pub(crate) struct WriteAdaptor<'a> {
     fmt_write: &'a mut dyn fmt::Write,
 }
 
