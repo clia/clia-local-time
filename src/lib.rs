@@ -1,5 +1,4 @@
-//! Tracing-subscriber now has a bug in LocalTime, so build ourselves' to fix it.
-//! In this patch, we use fixed timezone +8 for China usage.
+//! A LocalTime implementation to set timezone manually.
 
 use std::fmt;
 use std::io;
@@ -55,7 +54,7 @@ impl<F: Formattable> LocalTime<F> {
     /// [`time` crate] with the provided provided format. The format may be any
     /// type that implements the [`Formattable`] trait.
     ///
-    /// Use timezone +8 for China usage.
+    /// Default use UTC.
     ///
     /// Typically, the format will be a format description string, or one of the
     /// `time` crate's [well-known formats].
@@ -122,18 +121,24 @@ impl<F: Formattable> LocalTime<F> {
     pub fn new(format: F) -> Self {
         Self {
             format,
-            tz_hours: 8,
+            tz_hours: 0,
             tz_minutes: 0,
             tz_seconds: 0,
         }
     }
 
-    pub fn with_timezone(format: F, tz_hours: i8, tz_minutes: i8, tz_seconds: i8) -> Self {
+    /// New with a format and timezone setting.
+    /// Timezone format: (tz_hours, tz_minutes, tz_seconds)
+    /// Example:
+    ///     (8, 0, 0)
+    ///     (-2, 30, 0)
+    /// 
+    pub fn with_timezone(format: F, tz_hms: (i8, i8, i8)) -> Self {
         Self {
             format,
-            tz_hours,
-            tz_minutes,
-            tz_seconds,
+            tz_hours: tz_hms.0,
+            tz_minutes: tz_hms.1,
+            tz_seconds: tz_hms.2,
         }
     }
 }
@@ -238,9 +243,7 @@ mod tests {
             format_description!(
                 "[year]-[month]-[day] [hour]:[minute]:[second].[subsecond digits:3]"
             ),
-            8,
-            0,
-            0,
+            (8, 0, 0),
         );
         tracing_subscriber::fmt().with_timer(timer).init();
     }
