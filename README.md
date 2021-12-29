@@ -2,7 +2,7 @@
 
 A LocalTime implementation to set timezone manually.
 
-Tracing-subscriber 3.x switched from `chrono` crate to `time`.
+Tracing-subscriber 0.3.x switched from `chrono` crate to `time`.
 When using with LocalTime on some platforms it will cause to failure, when auto fetching the timezone from system.
 
 So we build ourselves' LocalTime to fix it.
